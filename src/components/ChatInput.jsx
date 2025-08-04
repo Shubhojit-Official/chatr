@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowUp, SendHorizonal, Loader } from "lucide-react";
+import { Square, ArrowUp, MicVocal, Loader } from "lucide-react";
 
 const ChatInput = ({ onSend, isLoading }) => {
   const [message, setMessage] = useState("");
+  const [isRecording, setIsRecording] = useState(false);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -22,11 +23,11 @@ const ChatInput = ({ onSend, isLoading }) => {
   }, [message]);
 
   return (
-    <div className="min-h-12 w-full flex flex-col border border-[#444343] bg-[#303030] rounded-md ">
+    <div className="min-h-12 w-full flex flex-col border border-[#444343] bg-[#303030] rounded-lg">
       <textarea
         ref={textareaRef}
         rows={1}
-        className="w-full grow max-h-[15rem] resize-none overflow-y-auto
+        className="w-full min-h-11 max-h-[15rem] grow resize-none overflow-y-auto
                 text-white text-sm focus:outline-none
                    scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent
                    px-3 py-2"
@@ -46,6 +47,18 @@ const ChatInput = ({ onSend, isLoading }) => {
       </div>
 
       <div className="flex justify-end w-full flex-row p-2 gap-2">
+        {/* Voice Recording Button */}
+        <button
+          onClick={() => {
+            setIsRecording(!isRecording);
+            console.log("Recording some shit");
+          }}
+          className="flex h-10 w-10 rounded-full justify-center items-center text-white hover:text-black hover:bg-[#5e5c5c] active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isRecording ? <Square className="text-red-500" /> : <MicVocal />}
+        </button>
+
+        {/* Send Button */}
         <button
           onClick={() => {
             console.log("Sent some shit");
