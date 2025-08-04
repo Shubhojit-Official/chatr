@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Square, ArrowUp, MicVocal, Loader } from "lucide-react";
+import Tooltip from "@mui/material/Tooltip";
 
 const ChatInput = ({ onSend, isLoading }) => {
   const [message, setMessage] = useState("");
@@ -48,30 +49,34 @@ const ChatInput = ({ onSend, isLoading }) => {
 
       <div className="flex justify-end w-full flex-row p-2 gap-2">
         {/* Voice Recording Button */}
-        <button
-          onClick={() => {
-            setIsRecording(!isRecording);
-            console.log("Recording some shit");
-          }}
-          className="flex h-10 w-10 rounded-full justify-center items-center text-white hover:text-black hover:bg-[#5e5c5c] active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isRecording ? <Square className="text-red-500" /> : <MicVocal />}
-        </button>
+        <Tooltip title={isRecording ? "Stop Recording" : "Dictate"} arrow>
+          <button
+            onClick={() => {
+              setIsRecording(!isRecording);
+              console.log("Recording some shit");
+            }}
+            className="flex h-10 w-10 rounded-full justify-center items-center text-white hover:text-black hover:bg-[#5e5c5c] active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isRecording ? <Square className="text-red-500" /> : <MicVocal />}
+          </button>
+        </Tooltip>
 
         {/* Send Button */}
-        <button
-          onClick={() => {
-            console.log("Sent some shit");
-          }}
-          disabled={isLoading}
-          className="flex h-10 w-10 border border-white rounded-full justify-center items-center text-white hover:text-black hover:bg-white active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? (
-            <Loader className="animate-spin" />
-          ) : (
-            <ArrowUp className="" />
-          )}
-        </button>
+        <Tooltip title="Ask Gemini" arrow>
+          <button
+            onClick={() => {
+              console.log("Sent some shit");
+            }}
+            disabled={isLoading}
+            className="flex h-10 w-10 border border-white rounded-full justify-center items-center text-white hover:text-black hover:bg-white active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <Loader className="animate-spin" />
+            ) : (
+              <ArrowUp className="" />
+            )}
+          </button>
+        </Tooltip>
       </div>
     </div>
   );
