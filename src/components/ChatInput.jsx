@@ -7,8 +7,16 @@ const ChatInput = ({ onSend, isLoading }) => {
   const [isRecording, setIsRecording] = useState(false);
   const textareaRef = useRef(null);
 
+  const handleSend = () => {
+    const trimmed = message.trim();
+    if (trimmed !== "") {
+      onSend(trimmed);
+      setMessage("");
+    }
+  };
+
   useEffect(() => {
-    const textarea = textareaRef.current;
+    const textarea = textareaRef.current; //Input Text Area
     if (textarea) {
       textarea.style.height = "inherit"; // Start fresh
       textarea.style.overflow = "hidden";
@@ -24,11 +32,11 @@ const ChatInput = ({ onSend, isLoading }) => {
   }, [message]);
 
   return (
-    <div className="min-h-12 w-full flex flex-col border border-[#444343] bg-[#303030] rounded-lg">
+    <div className="flex flex-col border border-[#444343] bg-[#303030] rounded-lg">
       <textarea
         ref={textareaRef}
         rows={1}
-        className="w-full min-h-11 max-h-[15rem] grow resize-none overflow-y-auto
+        className="w-full min-h-12 max-h-[15rem] grow resize-none overflow-y-auto
                 text-white text-sm focus:outline-none
                    scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent
                    px-3 py-2"
@@ -38,7 +46,7 @@ const ChatInput = ({ onSend, isLoading }) => {
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            // handleSend(); // implement this
+            handleSend(); // implement this
           }
         }}
       />
@@ -55,7 +63,7 @@ const ChatInput = ({ onSend, isLoading }) => {
               setIsRecording(!isRecording);
               console.log("Recording some shit");
             }}
-            className="flex h-10 w-10 rounded-full justify-center items-center text-white hover:text-black hover:bg-[#5e5c5c] active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex h-8 w-8 rounded-full justify-center items-center text-white hover:text-black hover:bg-[#5e5c5c] active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isRecording ? <Square className="text-red-500" /> : <MicVocal />}
           </button>
@@ -65,10 +73,10 @@ const ChatInput = ({ onSend, isLoading }) => {
         <Tooltip title="Ask Gemini" arrow>
           <button
             onClick={() => {
-              console.log("Sent some shit");
+              handleSend();
             }}
             disabled={isLoading}
-            className="flex h-10 w-10 border border-white rounded-full justify-center items-center text-white hover:text-black hover:bg-white active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex h-8 w-8 border border-white rounded-full justify-center items-center text-white hover:text-black hover:bg-white active:bg-[#d5dbd6] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <Loader className="animate-spin" />
