@@ -32,21 +32,21 @@ const ChatInput = ({ onSend, isLoading }) => {
   }, [message]);
 
   return (
-    <div className="flex flex-col border border-[#444343] bg-[#303030] rounded-lg">
+    <div className="flex flex-col border border-[#444343] bg-[#303030] rounded-3xl">
       <textarea
         ref={textareaRef}
         rows={1}
         className="w-full min-h-12 max-h-[15rem] grow resize-none overflow-y-auto
                 text-white text-sm focus:outline-none
                    scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent
-                   px-3 py-2"
-        placeholder="Type a message..."
+                   px-5 py-2"
+        placeholder="Ask Gemni"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleSend(); // implement this
+            handleSend();
           }
         }}
       />
