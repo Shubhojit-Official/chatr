@@ -45,11 +45,21 @@ router.post(
 
     const { username, email, password } = req.body;
     try {
-      let user = await User.findOne({ email });
+      let user = await User.findOne({
+        $or: [{ username }, { email }],
+      });
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: "User Already Exists" }] });
+        if (user.username == username) {
+          return res
+            .status(400)
+            .json({ errors: [{ msg: "Username unavailable" }] });
+        }
+
+        if (user.email == email) {
+          return res
+            .status(400)
+            .json({ errors: [{ msg: "Already registered with the email" }] });
+        }
       }
 
       user = new User({
@@ -57,6 +67,7 @@ router.post(
         email,
         password,
       });
+
       let salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
 
