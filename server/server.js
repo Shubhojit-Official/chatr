@@ -1,10 +1,19 @@
 const express = require("express");
 const connectDb = require("./config/db");
 const dotenv = require("dotenv");
-dotenv.config();
+const cors = require("cors");
 const app = express();
+dotenv.config();
 
 app.use(express.json({ extended: false }));
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 app.get("/", (req, res) => res.send("API Running"));
 connectDb();
